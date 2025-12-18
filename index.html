@@ -166,6 +166,7 @@
         </div>
     </nav>
     <div id="map"></div>
+    <!-- Sidebar -->
     <div id="sidebar">
       <div class="p-6">
         <div class="flex items-center mb-5">
@@ -233,7 +234,7 @@
       const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
       const esriSatellite = L.esri.basemapLayer("Imagery"); 
       const baseMaps = { Street: osm, Satelit: esriSatellite };
-
+      // Layer batas admin dari geoserver
       const batasAdminPg = L.tileLayer.wms("http://localhost:8080/geoserver/pgweb/wms", {
         layers: "pgweb:Batas_Admin",
         format: "image/png",
@@ -251,7 +252,8 @@
       const layerControlContainer = document.getElementById("layer-control");
 
       // 3. Fungsi Helper (menampilkan lokasi wisata tertentu di peta Leaflet)
-      function showLocation(lat, lon) {
+      // menampilkan lokasi
+      function showLocation(lat, lon) {  
         const place = wisataData.find((p) => p.lat === lat && p.lon === lon);
         if (place && place.marker) {
           if (sidebar.classList.contains("collapsed")) {
@@ -418,7 +420,7 @@
         setTimeout(() => map.invalidateSize(), 300);
       });
 
-      // 8. Fungsi Rute
+      // 8. Fungsi Rute, geolocation, leaflet routing machine
       function getRoute(destLat, destLon) {
         if (!navigator.geolocation) return alert("Geolocation tidak didukung oleh browser Anda.");
         navigator.geolocation.getCurrentPosition(
